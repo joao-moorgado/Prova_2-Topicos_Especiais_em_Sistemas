@@ -31,7 +31,7 @@ app.MapPost("/categoria/cadastrar", ([FromServices] AppDataContext ctx, [FromBod
 
 //ENDPOINTS DE TAREFA
 //GET: http://localhost:5273/tarefas/listar
-app.MapGet("/tarefas/listar", ([FromServices] AppDataContext ctx) =>
+app.MapGet("/tarefa/listar", ([FromServices] AppDataContext ctx) =>
 {
     if (ctx.Tarefas.Any())
     {
@@ -41,7 +41,7 @@ app.MapGet("/tarefas/listar", ([FromServices] AppDataContext ctx) =>
 });
 
 //POST: http://localhost:5273/tarefas/cadastrar
-app.MapPost("/tarefas/cadastrar", ([FromServices] AppDataContext ctx, [FromBody] Tarefa tarefa) =>
+app.MapPost("/tarefa/cadastrar", ([FromServices] AppDataContext ctx, [FromBody] Tarefa tarefa) =>
 {
     Categoria? categoria = ctx.Categorias.Find(tarefa.CategoriaId);
     if (categoria == null)
@@ -55,7 +55,7 @@ app.MapPost("/tarefas/cadastrar", ([FromServices] AppDataContext ctx, [FromBody]
 });
 
 //PUT: http://localhost:5273/tarefas/alterar/{id}
-app.MapPut("/tarefas/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id) =>
+app.MapPut("/tarefa/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRoute] string id) =>
 {
     Tarefa? tarefa = ctx.Tarefas.Find(id);
     if(tarefa is null)
@@ -77,13 +77,13 @@ app.MapPut("/tarefas/alterar/{id}", ([FromServices] AppDataContext ctx, [FromRou
 });
 
 //GET: http://localhost:5273/tarefas/naoconcluidas
-app.MapGet("/tarefas/naoconcluidas", ([FromServices] AppDataContext ctx) =>
+app.MapGet("/tarefa/naoconcluidas", ([FromServices] AppDataContext ctx) =>
 {
     return Results.Ok(ctx.Tarefas.ToList().Where(s => s.Status.Contains("Não iniciada") || s.Status.Contains("Em andamento")));
 });
 
 //GET: http://localhost:5273/tarefas/concluidas
-app.MapGet("/tarefas/concluidas", ([FromServices] AppDataContext ctx) =>
+app.MapGet("/tarefa/concluidas", ([FromServices] AppDataContext ctx) =>
 {
     return Results.Ok(ctx.Tarefas.ToList().Where(s => s.Status.Contains("Concluido")));
 });
